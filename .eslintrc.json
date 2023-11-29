@@ -1,0 +1,53 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "import",
+    "@typescript-eslint"
+  ],
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "rules": {
+    "react/no-unescaped-entities": "off",
+    "no-unused-vars": ["warn", { "args": "none", "caughtErrors": "none" }],
+    "@typescript-eslint/no-unused-vars": ["warn",  { "args": "none" }],
+    "@next/next/no-page-custom-font": "off",
+    "prefer-const": "error",
+    "no-console": ["warn", { "allow": ["off", "error"]}],
+    "quotes": ["error", "single"],
+    "jsx-quotes": ["error", "prefer-double"],
+    "indent": ["warn", 2, { "ignoredNodes": ["ConditionalExpression"]}],
+    "max-len": ["error", {"code": 80, "ignoreComments": true,  "ignoreStrings": true }],
+    "comma-dangle": ["error", "always-multiline"],
+    "semi": ["warn", "always"],
+    "import/order": [
+      "error",
+      {
+        "alphabetize": { "order": "asc" },
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          ["index", "sibling"],
+          "object"
+        ],
+        "newlines-between": "always",
+        "pathGroups": [
+          {
+            "pattern": "@prd-crossmip/**",
+            "group": "external",
+            "position": "after",
+          },
+          {
+            "pattern": ".*/**/*.scss",
+            "group": "sibling",
+            "position": "after"
+          }
+        ]
+      }
+    ]
+  }
+}
+

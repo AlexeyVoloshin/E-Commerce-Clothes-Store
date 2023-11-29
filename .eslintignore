@@ -1,0 +1,5 @@
+node_modules/*
+build/*
+public/workbox-*.js
+public/workbox-*.js.map
+public/*
