@@ -5,6 +5,7 @@ import Link from 'next/link';
 import clsx from 'clsx';
 import AddProductToCartForm from './AddProductToCartForm';
 import { ProductResponseType } from '@/types/response';
+import { TheImage } from './TheImage';
 
 type ProductOverviewProps = {
   product: ProductResponseType;
@@ -29,16 +30,14 @@ const ProductOverview: React.FC<ProductOverviewProps> = ({ product }) => {
       </nav>
 
       <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
-        <div className="flex justify-center w-full h-full xl:aspect-h-8 xl:aspect-w-7 rounded-lg ">
-          <Image
-            className="w-auto h-full  max-w-full max-h-full object-contain object-center group-hover:opacity-75"
+        <div className="flex justify-center w-full h-full xl:aspect-h-8 xl:aspect-w-7 rounded-lg relative">
+          <TheImage
+            className="w-full h-auto  object-contain object-center group-hover:opacity-75"
             src={product.image}
-            placeholder="blur"
-            blurDataURL={client_utils.rgbDataURL(204, 229, 255)}
             alt={product.title}
-            width={270}
-            height={226}
-            sizes="calc(100vw - 58px)"
+            width={592}
+            height={592}
+            sizes="(min-width: 480px) 346px, calc(100vw - 70px)"
           />
         </div>
       </div>

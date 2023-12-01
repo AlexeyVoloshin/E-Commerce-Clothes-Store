@@ -10,7 +10,7 @@ const Button: React.FC<ButtonProps> = ({ children, className }) => {
   return (
     <button
       className={clsx(
-        'hover:transition-all ease-in-out delay-150 bg-sky-500 p-2 rounded-full text-white font-bold  hover:bg-sky-700 duration-300',
+        'hover:transition-all ease-in-out delay-150 bg-sky-500 p-3 rounded-full text-white font-bold  hover:bg-sky-700 duration-300',
         className
       )}>
       {children}

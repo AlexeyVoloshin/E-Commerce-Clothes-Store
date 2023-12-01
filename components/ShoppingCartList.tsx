@@ -12,10 +12,11 @@ const ShoppingCartList: React.FC<ShoppingCartListProps> = ({ cart }) => {
     <div>
       <ul
         role="list"
-        className="-my-6 divide-y divide-gray-200">
+        className=" divide-y divide-gray-200">
         {cart.products.map(product => (
           <React.Fragment key={product.productId}>
             <CardProduct
+              cartId={cart.id}
               productId={product.productId}
               quantity={product.quantity}
             />

@@ -1,6 +1,8 @@
 import { ROUTES } from '@/core/routes';
 import { ProductResponseType } from '@/types/response';
 import Link from 'next/link';
+import { TheImage } from './TheImage';
+import RemoveProdCartForm from './RemoveProdCartForm';
 
 async function getProduct(id: string | number): Promise<ProductResponseType> {
   const response = await fetch(`https://fakestoreapi.com/products/${id}`);
@@ -11,9 +13,11 @@ async function getProduct(id: string | number): Promise<ProductResponseType> {
 export default async function CardProduct({
   productId,
   quantity,
+  cartId,
 }: {
   productId: number | string;
   quantity: number;
+  cartId: number;
 }) {
   const product = await getProduct(productId);
 
@@ -21,11 +25,13 @@ export default async function CardProduct({
     <li
       key={product.id}
       className="flex py-6">
-      <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-        <img
+      <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200 border-b">
+        <TheImage
           src={product.image}
           alt={product.title}
-          className="h-full w-full object-cover object-center"
+          width={94}
+          height={94}
+          className="h-full w-full object-contain object-center"
         />
       </div>
 
@@ -39,23 +45,20 @@ export default async function CardProduct({
             </h3>
             <p className="ml-4">{product.price}</p>
           </div>
-          {/* <p className="mt-1 text-sm text-gray-500">{product.color}</p> */}
         </div>
         <div className="flex flex-1 items-end justify-between text-sm">
-          {/* <p className="text-gray-500">Qty {quantity}</p> */}
           <div className="">
             <label
               htmlFor={`quantity-${product.id}`}
               className="mr-3">
-              Quantity, Basic Tee
+              Quantity {quantity}
             </label>
           </div>
           <div className="flex">
-            <button
-              type="button"
-              className="font-medium text-indigo-600 hover:text-indigo-500">
-              Remove
-            </button>
+            <RemoveProdCartForm
+              productId={product.id}
+              cartId={cartId}
+            />
           </div>
         </div>
       </div>

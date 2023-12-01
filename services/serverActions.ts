@@ -35,4 +35,29 @@ async function paymentProduct() {
   console.log('Payment is success');
 }
 
-export { addProductsToCart, paymentProduct };
+async function updateProductToCart({
+  userId,
+  cartId,
+  productId,
+}: {
+  cartId: number;
+  userId: number;
+  productId: number | string;
+  quantity?: number;
+}) {
+  'use server';
+  fetch(`https://fakestoreapi.com/carts/${cartId}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      userId,
+      date: '2019-12-10',
+      products: [],
+    }),
+  });
+  revalidatePath(ROUTES.static.cart);
+}
+
+export { addProductsToCart, paymentProduct, updateProductToCart };
