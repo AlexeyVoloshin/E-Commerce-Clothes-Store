@@ -1,27 +1,14 @@
-import { IconStar } from "./Icons/IconStar";
-import Image from "next/image";
-import { client_utils } from "@/utils";
-import Link from "next/link";
-import clsx from "clsx";
-import { Button } from "./Button";
-
-type ProductOverviewType = {
-  id: string | number;
-  title: string;
-  price: number;
-  description: string;
-  category: string;
-  image: string;
-  rating: RatingType;
-};
-
-type RatingType = {
-  rate: number;
-  count: number;
-};
+import { IconStar } from './Icons/IconStar';
+import Image from 'next/image';
+import { client_utils } from '@/utils';
+import Link from 'next/link';
+import clsx from 'clsx';
+import AddProductToCartForm from './AddProductToCartForm';
+import { ProductResponseType } from '@/types/response';
+import { TheImage } from './TheImage';
 
 type ProductOverviewProps = {
-  product: ProductOverviewType;
+  product: ProductResponseType;
 };
 
 const ProductOverview: React.FC<ProductOverviewProps> = ({ product }) => {
@@ -30,32 +17,27 @@ const ProductOverview: React.FC<ProductOverviewProps> = ({ product }) => {
       <nav aria-label="Breadcrumb">
         <ol
           role="list"
-          className="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8"
-        >
+          className="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
           <li className="text-sm">
             <a
-              href={"#"}
+              href={'#'}
               aria-current="page"
-              className="font-medium text-gray-500 hover:text-gray-600"
-            >
+              className="font-medium text-gray-500 hover:text-gray-600">
               {product.title}
             </a>
           </li>
         </ol>
       </nav>
 
-      {/* Image gallery */}
       <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
-        <div className="flex justify-center w-full h-full xl:aspect-h-8 xl:aspect-w-7 rounded-lg ">
-          <Image
-            className="w-auto h-full  max-w-full max-h-full object-contain object-center group-hover:opacity-75"
+        <div className="flex justify-center w-full h-full xl:aspect-h-8 xl:aspect-w-7 rounded-lg relative">
+          <TheImage
+            className="w-full h-auto  object-contain object-center group-hover:opacity-75"
             src={product.image}
-            placeholder="blur"
-            blurDataURL={client_utils.rgbDataURL(204, 229, 255)}
             alt={product.title}
-            width={270}
-            height={226}
-            sizes="calc(100vw - 58px)"
+            width={592}
+            height={592}
+            sizes="(min-width: 480px) 346px, calc(100vw - 70px)"
           />
         </div>
       </div>
@@ -80,23 +62,22 @@ const ProductOverview: React.FC<ProductOverviewProps> = ({ product }) => {
             <h3 className="sr-only">Reviews</h3>
             <div className="flex items-center">
               <div className="flex items-center">
-                {[0, 1, 2, 3, 4].map((rating) => (
+                {[0, 1, 2, 3, 4].map(rating => (
                   <IconStar
                     key={rating}
                     className={clsx(
                       product.rating.rate > rating
-                        ? "text-yellow-500 "
-                        : "text-yellow-200",
-                      "h-5 w-5 flex-shrink-0"
+                        ? 'text-yellow-500 '
+                        : 'text-yellow-200',
+                      'h-5 w-5 flex-shrink-0'
                     )}
                   />
                 ))}
               </div>
               <p className="sr-only">{product.rating.rate} out of 5 stars</p>
               <Link
-                href={"#"}
-                className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500"
-              >
+                href={'#'}
+                className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500">
                 {product.rating.count} reviews
               </Link>
             </div>
@@ -104,14 +85,16 @@ const ProductOverview: React.FC<ProductOverviewProps> = ({ product }) => {
           <div className="mt-10">
             <h3 className="text-sm font-medium text-gray-900">Category</h3>
             <Link
-              href={"#"}
-              className="text-sm text-gray-600 hover:text-gray-400"
-            >
+              href={'#'}
+              className="text-sm text-gray-600 hover:text-gray-400">
               {product.category}
             </Link>
           </div>
           <div className="flex justify-center mt-10">
-            <Button className="w-full">Add to bag</Button>
+            <AddProductToCartForm
+              productId={product.id}
+              quantity={1}
+            />
           </div>
         </div>
 
