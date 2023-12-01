@@ -1,12 +1,7 @@
-import { ProductsList } from "@/components/ProductsList";
-
-async function getData() {
-  const response = await fetch("https://fakestoreapi.com/products?limit=10");
-
-  return response.json();
-}
+import { ProductsList } from '@/components/ProductsList';
+import { getAllProducts } from '@/services/getProducts';
 
 export default async function Home() {
-  const products = await getData();
+  const products = await getAllProducts();
   return <ProductsList products={products} />;
 }
