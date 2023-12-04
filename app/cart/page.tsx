@@ -12,25 +12,13 @@ export const metadata: Metadata = {
 };
 
 export default async function Cart() {
-  const cart = await getSingleCart(user.cartId);
+  // const cart = await getSingleCart(user.cartId);
 
   return (
     <div>
       <Title>Cart</Title>
-      {!cart ? (
-        <div>
-          <p>Your cart is still empty.</p>
-          <Button>
-            <Link
-              href={ROUTES.static.home}
-              className="bottom-2 bg">
-              back to shopping
-            </Link>
-          </Button>
-        </div>
-      ) : (
-        <ShoppingCartList cart={cart} />
-      )}
+
+      <ShoppingCartList />
     </div>
   );
 }

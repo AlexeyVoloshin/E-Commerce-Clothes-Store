@@ -1,28 +1,15 @@
 import React from 'react';
-import CardProduct from './CardProduct';
+
 import ContinueShoppingForm from './ContinueShoppingForm';
-import { SingleCartResponseType } from '@/types/response';
+import { ViewCartList } from './ViewCartList';
+import RemoveProdCartForm from './RemoveProdCartForm';
 
-type ShoppingCartListProps = {
-  cart: SingleCartResponseType;
-};
-
-const ShoppingCartList: React.FC<ShoppingCartListProps> = ({ cart }) => {
+const ShoppingCartList: React.FC = () => {
   return (
     <div>
-      <ul
-        role="list"
-        className=" divide-y divide-gray-200">
-        {cart.products.map(product => (
-          <React.Fragment key={product.productId}>
-            <CardProduct
-              cartId={cart.id}
-              productId={product.productId}
-              quantity={product.quantity}
-            />
-          </React.Fragment>
-        ))}
-      </ul>
+      <ViewCartList component={}>
+        <RemoveProdCartForm />
+      </ViewCartList>
       <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
         <div className="flex justify-between text-base font-medium text-gray-900">
           <p>Subtotal</p>
@@ -35,5 +22,4 @@ const ShoppingCartList: React.FC<ShoppingCartListProps> = ({ cart }) => {
     </div>
   );
 };
-
 export { ShoppingCartList };

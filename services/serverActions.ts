@@ -1,9 +1,12 @@
 'use server';
 
 import { ROUTES } from '@/core/routes';
+import { user } from '@/data/users';
 import { ProductCartType } from '@/types/propsType';
 import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
+import { runInAction } from 'mobx';
+import cartStore from '@/store/CartStore';
+import { SingleCartResponseType } from '@/types/response';
 
 async function addProductsToCart({ productId, quantity }: ProductCartType) {
   const date = new Date().toISOString().split('T')[0];
@@ -14,7 +17,7 @@ async function addProductsToCart({ productId, quantity }: ProductCartType) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      userId: 1,
+      userId: user.id,
       date,
       products: [
         {
@@ -25,10 +28,17 @@ async function addProductsToCart({ productId, quantity }: ProductCartType) {
     }),
   });
 
-  await response.json();
+  const data: SingleCartResponseType = await response.json();
 
+  // runInAction(() => {
+  //   cartStore.addCart(data);
+  // });
   revalidatePath(ROUTES.static.cart);
-  redirect(ROUTES.static.cart);
+  // redirect(ROUTES.static.cart);
+
+  return {
+    props: { data: data },
+  };
 }
 
 async function paymentProduct() {
@@ -45,7 +55,8 @@ async function updateProductToCart({
   productId: number | string;
   quantity?: number;
 }) {
-  'use server';
+  const date = new Date().toISOString().split('T')[0];
+
   fetch(`https://fakestoreapi.com/carts/${cartId}`, {
     method: 'PATCH',
     headers: {
@@ -53,11 +64,11 @@ async function updateProductToCart({
     },
     body: JSON.stringify({
       userId,
-      date: '2019-12-10',
+      date,
       products: [],
     }),
   });
   revalidatePath(ROUTES.static.cart);
 }
 
-export { addProductsToCart, paymentProduct, updateProductToCart };
+export { paymentProduct, updateProductToCart, addProductsToCart };

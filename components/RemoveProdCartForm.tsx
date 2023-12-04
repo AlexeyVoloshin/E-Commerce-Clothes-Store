@@ -9,7 +9,7 @@ export default async function RemoveProdCartForm({
   cartId: number;
 }) {
   const params = {
-    userId: user.userId,
+    userId: user.id,
     cartId,
     productId,
   };
