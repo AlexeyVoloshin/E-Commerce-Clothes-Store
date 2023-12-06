@@ -3,33 +3,21 @@ import { ProductResponseType } from '@/types/response';
 import Link from 'next/link';
 import { TheImage } from './TheImage';
 import RemoveProdCartForm from './RemoveProdCartForm';
-import React, {
-  ComponentType,
-  PropsWithChildren,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react';
+import React, { ComponentType, useCallback, useEffect, useState } from 'react';
+import { UpdateProductCartForm } from './UpdateProductCartForm';
 
 type RemoveProdCartFormType = ComponentType<{
   productId: number | string;
   cartId: number;
 }>;
 
-interface CardProductProps extends PropsWithChildren {
+interface CardProductProps {
   productId: number | string;
   quantity: number;
   cartId: number;
-  component: RemoveProdCartFormType;
 }
 
-export default function CardProduct({
-  productId,
-  quantity,
-  cartId,
-  component: Component,
-  children,
-}: CardProductProps) {
+export default function CardProduct({ productId, quantity }: CardProductProps) {
   const [product, setProduct] = useState<ProductResponseType>();
   const handlerFetch = useCallback(async (id: string | number) => {
     const response = await fetch(`https://fakestoreapi.com/products/${id}`);
@@ -73,17 +61,13 @@ export default function CardProduct({
             </div>
             <div className="flex flex-1 items-end justify-between text-sm">
               <div className="">
-                <label
-                  htmlFor={`quantity-${product.id}`}
-                  className="mr-3">
-                  Quantity {quantity}
-                </label>
+                <UpdateProductCartForm
+                  productId={product.id}
+                  quantity={quantity}
+                />
               </div>
               <div className="flex">
-                {/* {React.createElement(Component, {
-                  productId,
-                  cartId,
-                })} */}
+                <RemoveProdCartForm productId={product.id} />
               </div>
             </div>
           </div>
@@ -92,7 +76,3 @@ export default function CardProduct({
     </>
   );
 }
-// <RemoveProdCartForm
-//   productId={product.productId}
-//   cartId={data.id}
-// />

@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { ROUTES } from '@/core/routes';
 import { client_utils } from '@/utils';
 import { TheImage } from './TheImage';
+import Link from 'next/link';
 
 type ProductsListType = {
   id: number;
@@ -31,7 +32,7 @@ const ProductsList: React.FC<ProductsListProps> = ({
       <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-20 lg:max-w-7xl lg:px-8">
         <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
           {productsList.map(product => (
-            <a
+            <Link
               key={product.id}
               href={ROUTES.dynamic.productDetails(product.id)}
               className="group flex flex-col">
@@ -53,7 +54,7 @@ const ProductsList: React.FC<ProductsListProps> = ({
               <p className="mt-1 text-lg font-medium text-gray-900">
                 ${product.price}
               </p>
-            </a>
+            </Link>
           ))}
         </div>
       </div>

@@ -1,5 +1,5 @@
 import { ProductsList } from '@/components/ProductsList';
-import { getAllProducts } from '@/services/getProducts';
+import { getAllProducts } from '@/services/productsApi';
 
 export default async function Home() {
   const products = await getAllProducts();

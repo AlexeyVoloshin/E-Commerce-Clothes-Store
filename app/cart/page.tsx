@@ -1,11 +1,8 @@
-import { Button } from '@/components/Button';
-import { ShoppingCartList } from '@/components/ShoppingCartList';
+import ContinueShoppingForm from '@/components/ContinueShoppingForm';
+import { SubtotalProductsCart } from '@/components/SubtotalProductsCart';
 import { Title } from '@/components/Title';
-import { ROUTES } from '@/core/routes';
-import { user } from '@/data/users';
-import { getSingleCart } from '@/services/getCart';
+import { ViewCartList } from '@/components/ViewCartList';
 import { Metadata } from 'next';
-import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Cart | Shopping list',
@@ -15,10 +12,17 @@ export default async function Cart() {
   // const cart = await getSingleCart(user.cartId);
 
   return (
-    <div>
+    <div className="pl-2 pr-2">
       <Title>Cart</Title>
-
-      <ShoppingCartList />
+      <div>
+        <ViewCartList />
+        <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
+          <SubtotalProductsCart />
+          <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
+            <ContinueShoppingForm />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

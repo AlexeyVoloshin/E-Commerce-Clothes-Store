@@ -30,14 +30,11 @@ async function addProductsToCart({ productId, quantity }: ProductCartType) {
 
   const data: SingleCartResponseType = await response.json();
 
-  // runInAction(() => {
-  //   cartStore.addCart(data);
-  // });
   revalidatePath(ROUTES.static.cart);
   // redirect(ROUTES.static.cart);
 
   return {
-    props: { data: data },
+    props: { data },
   };
 }
 
@@ -46,18 +43,18 @@ async function paymentProduct() {
 }
 
 async function updateProductToCart({
+  id,
+  products,
   userId,
-  cartId,
-  productId,
 }: {
-  cartId: number;
-  userId: number;
-  productId: number | string;
-  quantity?: number;
+  id: number;
+  userId?: number;
+  date?: string;
+  products?: ProductCartType[];
 }) {
   const date = new Date().toISOString().split('T')[0];
 
-  fetch(`https://fakestoreapi.com/carts/${cartId}`, {
+  const response = await fetch(`https://fakestoreapi.com/carts/${id}`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
@@ -65,10 +62,16 @@ async function updateProductToCart({
     body: JSON.stringify({
       userId,
       date,
-      products: [],
+      products,
     }),
   });
   revalidatePath(ROUTES.static.cart);
+
+  const data = await response.json();
+
+  return {
+    props: { data },
+  };
 }
 
 export { paymentProduct, updateProductToCart, addProductsToCart };

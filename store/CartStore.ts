@@ -1,3 +1,4 @@
+import { updateProductToCart } from '@/services/serverActions';
 import { SingleCartResponseType } from '@/types/response';
 import {
   makeObservable,
@@ -9,6 +10,7 @@ import {
   computed,
 } from 'mobx';
 // import { RootStore } from './RootStore';
+import { makeAutoObservable, runInAction } from 'mobx';
 
 import { enableStaticRendering } from 'mobx-react-lite';
 
@@ -21,11 +23,14 @@ export type CounterHydration = {
 export class Store {
   // root: RootStore;
   cart: SingleCartResponseType | null = null;
+  loading: boolean = false;
+  error: Error = Error('');
   countProducts: number = 0;
   subtotal: number = 0;
   constructor() {
     makeObservable(this, {
       cart: observable,
+      loading: observable,
       subtotal: observable,
       countProducts: observable,
       getCountProductInCart: computed,
@@ -37,26 +42,37 @@ export class Store {
     return this.countProducts;
   }
   addCart(cart: SingleCartResponseType) {
-    this.cart = cart;
-    this.countProducts = cart.products.length;
+    if (!this.cart) {
+      this.cart = cart;
+    } else if (this.cart.id === cart.id) {
+      this.cart.products = [...this.cart.products, ...cart.products];
+    }
+    this.countProducts = this.cart.products.length;
   }
-  updateProductCart(productId: number) {
-    const products = this.cart?.products.filter(
-      item => productId !== item.productId
+  async updateProductCart(productId: number | string, quantity: number) {
+    const product = this.cart?.products.find(
+      item => item.productId === productId
     );
-    if (this.cart && products) this.cart.products = products;
+    if (product) {
+      product.quantity = quantity;
+    }
+    if (this.cart) {
+      const {
+        props: { data },
+      } = await updateProductToCart({
+        id: this.cart.id,
+        products: this.cart.products,
+      });
+      runInAction(() => {
+        this.cart = data;
+      });
+    }
   }
-
-  // *fetchCart() {
-  //   const response = await fetch('');
-  //   this.cart = yield response.json()
-  // }
-
-  // hydrate(data?: CounterHydration) {
-  //   if (data) {
-  //     // this.cart = data.start;
-  //   }
-  // }
+  deleteProductCart(cart: SingleCartResponseType) {
+    if (cart && this.cart && this.cart.id === cart.id) {
+      this.cart.products = cart.products;
+    }
+  }
 }
 
 const cartStore = new Store();

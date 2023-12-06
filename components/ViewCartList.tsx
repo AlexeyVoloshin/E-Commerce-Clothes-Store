@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ComponentType, ReactNode } from 'react';
+import React, { PropsWithChildren } from 'react';
 import { observer } from 'mobx-react-lite';
 import store from '@/store/CartStore';
 import CardProduct from './CardProduct';
@@ -8,16 +8,7 @@ import { Button } from './Button';
 import Link from 'next/link';
 import { ROUTES } from '@/core/routes';
 
-type RemoveProdCartFormType = ComponentType<{
-  productId: number | string;
-  cartId: number;
-}>;
-
-interface ViewCartListProps {
-  component: RemoveProdCartFormType;
-}
-
-const ViewCartList = observer(({ component: Component }: ViewCartListProps) => {
+const ViewCartList: React.FC<PropsWithChildren> = observer(() => {
   const { cart: data } = store;
   return (
     <>
@@ -42,7 +33,6 @@ const ViewCartList = observer(({ component: Component }: ViewCartListProps) => {
                 cartId={data.id}
                 productId={product.productId}
                 quantity={product.quantity}
-                component={CompoRemoveProdCartFormnent}
               />
             </React.Fragment>
           ))}

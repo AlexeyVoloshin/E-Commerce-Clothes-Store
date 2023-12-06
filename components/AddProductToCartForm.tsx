@@ -4,19 +4,14 @@ import { Button } from './Button';
 import { ProductCartType } from '@/types/propsType';
 import { runInAction } from 'mobx';
 import cartStore from '@/store/CartStore';
-import { SingleCartResponseType } from '@/types/response';
+import { addProductsToCart } from '@/services/serverActions';
 
 export default function AddProductToCartForm({
-  serverAction,
-  ...data
-}: ProductCartType & {
-  serverAction: (
-    data: any
-  ) => Promise<{ props: { data: SingleCartResponseType } }>;
-}) {
+  productId,
+  quantity,
+}: ProductCartType) {
   const handleSubmit = async () => {
-    const { props } = await serverAction(data);
-    console.log('result: ', props);
+    const { props } = await addProductsToCart({ productId, quantity });
     runInAction(() => {
       cartStore.addCart(props.data);
     });

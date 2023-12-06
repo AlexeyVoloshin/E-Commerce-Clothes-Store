@@ -3,7 +3,6 @@ import Link from 'next/link';
 import AddProductToCartForm from './AddProductToCartForm';
 import { ProductResponseType } from '@/types/response';
 import { TheImage } from './TheImage';
-import { addProductsToCart } from '@/services/serverActions';
 import clsx from 'clsx';
 
 type ProductOverviewProps = {
@@ -93,7 +92,6 @@ const ProductOverview: React.FC<ProductOverviewProps> = ({ product }) => {
             <AddProductToCartForm
               productId={product.id}
               quantity={1}
-              serverAction={addProductsToCart}
             />
           </div>
         </div>
