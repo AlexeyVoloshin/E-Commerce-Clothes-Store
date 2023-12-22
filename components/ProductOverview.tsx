@@ -1,11 +1,9 @@
 import { IconStar } from './Icons/IconStar';
-import Image from 'next/image';
-import { client_utils } from '@/utils';
 import Link from 'next/link';
-import clsx from 'clsx';
 import AddProductToCartForm from './AddProductToCartForm';
 import { ProductResponseType } from '@/types/response';
 import { TheImage } from './TheImage';
+import clsx from 'clsx';
 
 type ProductOverviewProps = {
   product: ProductResponseType;

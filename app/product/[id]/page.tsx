@@ -1,5 +1,5 @@
 import { ProductOverview } from '@/components/ProductOverview';
-import { getProduct } from '@/services/getProducts';
+import { getProduct } from '@/services/productsApi';
 import { Metadata } from 'next';
 
 type Props = {

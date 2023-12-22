@@ -1,3 +1,0 @@
-const TheCart = () => {};
-
-export { TheCart };

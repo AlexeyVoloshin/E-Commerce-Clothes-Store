@@ -1,36 +1,23 @@
-import { Button } from '@/components/Button';
-import { ShoppingCartList } from '@/components/ShoppingCartList';
+import ContinueShoppingForm from '@/components/ContinueShoppingForm';
+import { SubtotalProductsCart } from '@/components/SubtotalProductsCart';
 import { Title } from '@/components/Title';
-import { ROUTES } from '@/core/routes';
-import { user } from '@/data/users';
-import { getSingleCart } from '@/services/getCart';
+import { ViewCartList } from '@/components/ViewCartList';
 import { Metadata } from 'next';
-import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Cart | Shopping list',
 };
 
 export default async function Cart() {
-  const cart = await getSingleCart(user.cartId);
-
   return (
-    <div>
+    <div className="pl-2 pr-2">
       <Title>Cart</Title>
-      {!cart ? (
-        <div>
-          <p>Your cart is still empty.</p>
-          <Button>
-            <Link
-              href={ROUTES.static.home}
-              className="bottom-2 bg">
-              back to shopping
-            </Link>
-          </Button>
+      <div>
+        <ViewCartList />
+        <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
+          <SubtotalProductsCart />
         </div>
-      ) : (
-        <ShoppingCartList cart={cart} />
-      )}
+      </div>
     </div>
   );
 }
