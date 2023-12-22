@@ -7,7 +7,9 @@ Building a simple E-commerce Platform using Next.js, React, and Tailwind CSS
 To create a functional e-commerce platform that allows users to browse products, view product details, add items to a cart, manage the cart, and simulate a checkout process using the fakestoreapi.com for product data.
 
 ## How Application looks like
-
+![Home page](https://github.com/AlexeyVoloshin/E-Commerce-Clothes-Store/blob/main/Screenshot%202023-12-22%20at%2022.43.18.png)
+![ProductOverview page](https://github.com/AlexeyVoloshin/E-Commerce-Clothes-Store/blob/main/Screenshot%202023-12-22%20at%2022.31.21.png)
+![Cart page](https://github.com/AlexeyVoloshin/E-Commerce-Clothes-Store/blob/main/Screenshot%202023-12-22%20at%2022.21.33.png)
 
 ## Getting Started
 
