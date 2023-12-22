@@ -1,16 +1,7 @@
 import { updateProductToCart } from '@/services/serverActions';
 import { SingleCartResponseType } from '@/types/response';
-import {
-  makeObservable,
-  observable,
-  autorun,
-  reaction,
-  when,
-  action,
-  computed,
-} from 'mobx';
-// import { RootStore } from './RootStore';
-import { makeAutoObservable, runInAction } from 'mobx';
+import { makeObservable, observable, action, computed } from 'mobx';
+import { runInAction, toJS } from 'mobx';
 
 import { enableStaticRendering } from 'mobx-react-lite';
 
@@ -21,19 +12,18 @@ export type CounterHydration = {
 };
 
 export class Store {
-  // root: RootStore;
   cart: SingleCartResponseType | null = null;
   loading: boolean = false;
   error: Error = Error('');
   countProducts: number = 0;
-  subtotal: number = 0;
+  productsPrice: { id: number; price: number }[] = [];
   constructor() {
     makeObservable(this, {
       cart: observable,
       loading: observable,
-      subtotal: observable,
       countProducts: observable,
       getCountProductInCart: computed,
+      getSubtotal: computed,
       addCart: action,
       updateProductCart: action,
     });
@@ -41,6 +31,32 @@ export class Store {
   get getCountProductInCart() {
     return this.countProducts;
   }
+  get getSubtotal() {
+    const subtotal = this.cart?.products.reduce((prev, curr) => {
+      const prod = this.productsPrice.find(product => {
+        if (product.id == curr.productId) return product;
+      });
+
+      if (prod) {
+        return (prev += curr.quantity * prod.price);
+      }
+      return prev;
+    }, 0);
+
+    return subtotal?.toFixed(2) ?? 0;
+  }
+  setPriceForProduct(price: number, productId: number) {
+    const product = this.productsPrice.find(
+      product => product.id === productId
+    );
+    if (!product) {
+      this.productsPrice.push({
+        id: productId,
+        price,
+      });
+    }
+  }
+
   addCart(cart: SingleCartResponseType) {
     if (!this.cart) {
       this.cart = cart;

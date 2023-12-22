@@ -13,15 +13,17 @@ const ViewCartList: React.FC<PropsWithChildren> = observer(() => {
   return (
     <>
       {!data ? (
-        <div>
-          <p>Your cart is still empty.</p>
-          <Button>
-            <Link
-              href={ROUTES.static.home}
-              className="bottom-2 bg">
-              back to shopping
-            </Link>
-          </Button>
+        <div className="mb-8 flex justify-center">
+          <div className="m">
+            <p className="mb-5">Your cart is still empty.</p>
+            <Button>
+              <Link
+                href={ROUTES.static.home}
+                className="bottom-2 bg">
+                back to shopping
+              </Link>
+            </Button>
+          </div>
         </div>
       ) : (
         <ul

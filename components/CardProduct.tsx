@@ -3,14 +3,9 @@ import { ProductResponseType } from '@/types/response';
 import Link from 'next/link';
 import { TheImage } from './TheImage';
 import RemoveProdCartForm from './RemoveProdCartForm';
-import React, { ComponentType, useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { UpdateProductCartForm } from './UpdateProductCartForm';
-
-type RemoveProdCartFormType = ComponentType<{
-  productId: number | string;
-  cartId: number;
-}>;
-
+import store from '@/store/CartStore';
 interface CardProductProps {
   productId: number | string;
   quantity: number;
@@ -19,11 +14,13 @@ interface CardProductProps {
 
 export default function CardProduct({ productId, quantity }: CardProductProps) {
   const [product, setProduct] = useState<ProductResponseType>();
+
   const handlerFetch = useCallback(async (id: string | number) => {
     const response = await fetch(`https://fakestoreapi.com/products/${id}`);
 
     const data = await response.json();
     setProduct(data);
+    store.setPriceForProduct(data.price, Number(productId));
   }, []);
 
   useEffect(() => {
