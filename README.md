@@ -8,8 +8,8 @@ To create a functional e-commerce platform that allows users to browse products,
 
 ## How Application looks like
 ![Home page](https://github.com/AlexeyVoloshin/E-Commerce-Clothes-Store/blob/main/Screenshot%202023-12-22%20at%2022.43.18.png)
-![ProductOverview page](https://github.com/AlexeyVoloshin/E-Commerce-Clothes-Store/blob/main/Screenshot%202023-12-22%20at%2022.31.21.png)
 ![Cart page](https://github.com/AlexeyVoloshin/E-Commerce-Clothes-Store/blob/main/Screenshot%202023-12-22%20at%2022.21.33.png)
+![ProductOverview page](https://github.com/AlexeyVoloshin/E-Commerce-Clothes-Store/blob/main/Screenshot%202023-12-22%20at%2022.31.21.png)
 
 ## Getting Started
 
