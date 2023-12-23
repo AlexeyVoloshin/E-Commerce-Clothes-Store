@@ -5,7 +5,7 @@ import { TheImage } from './TheImage';
 import RemoveProdCartForm from './RemoveProdCartForm';
 import React, { useCallback, useEffect, useState } from 'react';
 import { UpdateProductCartForm } from './UpdateProductCartForm';
-import store from '@/store/CartStore';
+import cartStore from '@/store/CartStore';
 interface CardProductProps {
   productId: number | string;
   quantity: number;
@@ -16,11 +16,21 @@ export default function CardProduct({ productId, quantity }: CardProductProps) {
   const [product, setProduct] = useState<ProductResponseType>();
 
   const handlerFetch = useCallback(async (id: string | number) => {
-    const response = await fetch(`https://fakestoreapi.com/products/${id}`);
-
+    cartStore.setIsLoading()
+    const response = await fetch(`https://fakestoreapi.com/products/${id}`, {
+      cache: 'no-cache',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    
+    if(!response.ok) {
+      throw new Error('Failed to fetch data: ')
+    }
     const data = await response.json();
     setProduct(data);
-    store.setPriceForProduct(data.price, Number(productId));
+    cartStore.setPriceForProduct(data.price, Number(productId));
+
   }, []);
 
   useEffect(() => {

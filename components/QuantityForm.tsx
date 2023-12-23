@@ -10,7 +10,7 @@ async function updateProduct({ cartId, userId, productId, quantity }: Props) {
     method: 'PATCH',
     body: JSON.stringify({
       userId,
-      date: 2019 - 12 - 10,
+      date: '2019-12-10',
       products: [{ productId, quantity }],
     }),
   })

@@ -4,8 +4,6 @@ import { ROUTES } from '@/core/routes';
 import { user } from '@/data/users';
 import { ProductCartType } from '@/types/propsType';
 import { revalidatePath } from 'next/cache';
-import { runInAction } from 'mobx';
-import cartStore from '@/store/CartStore';
 import { SingleCartResponseType } from '@/types/response';
 
 async function addProductsToCart({ productId, quantity }: ProductCartType) {
