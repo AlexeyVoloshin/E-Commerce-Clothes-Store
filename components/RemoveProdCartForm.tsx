@@ -1,4 +1,4 @@
-import { updateProductToCart } from '@/services/serverActions';
+import { updateProductToCartApi } from '@/services/productsApi';
 import { runInAction } from 'mobx';
 import cartStore from '@/store/CartStore';
 
@@ -12,12 +12,10 @@ export default function RemoveProdCartForm({
       const filteredProducts = cartStore.cart.products.filter(
         item => item.productId !== productId
       );
-      const productCart = await updateProductToCart({
+      const productCart = await updateProductToCartApi({
         ...cartStore.cart,
         products: filteredProducts,
       });
-
-      console.log('productCart: ', productCart);
 
       runInAction(() => {
         cartStore.deleteProductCart(productCart.props.data);

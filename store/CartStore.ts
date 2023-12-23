@@ -1,7 +1,7 @@
-import { updateProductToCart } from '@/services/serverActions';
+import { updateProductToCartApi } from '@/services/productsApi';
 import { SingleCartResponseType } from '@/types/response';
 import { makeObservable, observable, action, computed } from 'mobx';
-import { runInAction, toJS } from 'mobx';
+import { runInAction } from 'mobx';
 
 import { enableStaticRendering } from 'mobx-react-lite';
 
@@ -39,11 +39,17 @@ export class Store {
 
       if (prod) {
         return (prev += curr.quantity * prod.price);
+      } else {
+        return prev;
       }
-      return prev;
     }, 0);
-
-    return subtotal?.toFixed(2) ?? 0;
+    
+    return  subtotal?.toFixed(2);
+  }
+  setIsLoading() {
+    runInAction(() => {
+      this.loading = true
+    })
   }
   setPriceForProduct(price: number, productId: number) {
     const product = this.productsPrice.find(
@@ -55,6 +61,9 @@ export class Store {
         price,
       });
     }
+    runInAction(() => {
+      this.loading = false;
+    })
   }
 
   addCart(cart: SingleCartResponseType) {
@@ -75,7 +84,7 @@ export class Store {
     if (this.cart) {
       const {
         props: { data },
-      } = await updateProductToCart({
+      } = await updateProductToCartApi({
         id: this.cart.id,
         products: this.cart.products,
       });
@@ -87,6 +96,7 @@ export class Store {
   deleteProductCart(cart: SingleCartResponseType) {
     if (cart && this.cart && this.cart.id === cart.id) {
       this.cart.products = cart.products;
+      this.countProducts = cart.products.length;
     }
   }
 }

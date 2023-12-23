@@ -1,5 +1,4 @@
-import { ROUTES } from '@/core/routes';
-import { revalidatePath } from 'next/cache';
+import { ProductCartType } from '@/types/propsType';
 
 async function getAllProductsApi() {
   const response = await fetch('https://fakestoreapi.com/products?limit=10');
@@ -17,17 +16,18 @@ async function getProductApi(id: string | number) {
 }
 
 async function updateProductToCartApi({
-  userId,
-  cartId,
+  id,
   products,
+  userId,
 }: {
-  cartId: number;
+  id: number;
   userId?: number;
-  products?: [];
+  date?: string;
+  products?: ProductCartType[];
 }) {
   const date = new Date().toISOString().split('T')[0];
 
-  fetch(`https://fakestoreapi.com/carts/${cartId}`, {
+  const response = await fetch(`https://fakestoreapi.com/carts/${id}`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
@@ -37,8 +37,16 @@ async function updateProductToCartApi({
       date,
       products,
     }),
+    cache: 'force-cache'
   });
-  revalidatePath(ROUTES.static.cart);
+  if(!response.ok) {
+    throw new Error('Failed to fetch data')
+  }
+  const data = await response.json();
+
+  return {
+    props: { data },
+  };
 }
 
 export {
